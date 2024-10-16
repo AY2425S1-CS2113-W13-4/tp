@@ -11,11 +11,11 @@ public class AttendanceList extends ItemList {
         this.attendanceArrayList = new ArrayList<>();
     }
 
-    public void markAttendance(Attendance attendance){
+    public void markAttendance(Attendance attendance) {
         this.attendanceArrayList.add(attendance);
     }
 
-    public void unmarkAttendance(Attendance attendance){
+    public void unmarkAttendance(Attendance attendance) {
         this.attendanceArrayList.remove(attendance);
     }
 }

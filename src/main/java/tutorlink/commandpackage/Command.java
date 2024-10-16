@@ -1,5 +1,6 @@
 package tutorlink.commandpackage;
 
+import tutorlink.listpackage.AssignmentList;
 import tutorlink.listpackage.StudentList;
 import tutorlink.resultpackage.CommandResult;
 
@@ -10,7 +11,11 @@ import tutorlink.resultpackage.CommandResult;
 public abstract class Command {
 
     protected static StudentList students = new StudentList();
-    /** Executes the required operations to perform the command issued by the user. */
+    protected static AssignmentList assignments = new AssignmentList();
+
+    /**
+     * Executes the required operations to perform the command issued by the user.
+     */
     public abstract CommandResult execute();
 
     /**
@@ -18,12 +23,16 @@ public abstract class Command {
      *
      * @return whether the current command is an ExitCommand
      */
-    public boolean isExit(){
+    public boolean isExit() {
         return false;
     }
 
-    public static StudentList getStudentList(){
+    public static StudentList getStudentList() {
         return students;
+    }
+
+    public static AssignmentList getAssignmentList() {
+        return assignments;
     }
 }
 

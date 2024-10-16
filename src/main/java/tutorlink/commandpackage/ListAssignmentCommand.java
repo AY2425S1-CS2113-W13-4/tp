@@ -1,31 +1,22 @@
 package tutorlink.commandpackage;
 
-import tutorlink.coursepackage.Course;
 import tutorlink.exceptionspackage.ItemNotFoundException;
 import tutorlink.resultpackage.CommandResult;
 
-public class ListAssignmentCommand extends Command{
+public class ListAssignmentCommand extends Command {
 
     public static final String COMMAND_WORD = "list_assignment";
-    public static final String FORMAT_ERROR_MESSAGE = "Error, expected format: " + COMMAND_WORD
-            + " i/MATRIC_NUMBER" + " c/COURSE_ID";
-    public static final String REGEX = "list_assignment\\s+i/(A\\d{7}[A-Z])\\s+c/([A-Z]{2,3}\\d{4})";
+    public static final String FORMAT_ERROR_MESSAGE = "Error, expected format: " + COMMAND_WORD;
+    public static final String REGEX = "list_assignment";
     private static final String SUCCESS_MESSAGE = "Here are your assignments:";
-    private String matricNumber;
-    private String courseID;
 
-    public ListAssignmentCommand(String matricNumber, String courseID) {
-        this.matricNumber = matricNumber;
-        this.courseID = courseID;
+    public ListAssignmentCommand() {
     }
 
     @Override
     public CommandResult execute() {
-        assert matricNumber != null;
-        assert courseID != null;
         try {
-            Course course = students.getStudent(this.matricNumber).courses.getCourseByID(this.courseID);
-            return new CommandResult(SUCCESS_MESSAGE,course.getAssignments());
+            return new CommandResult(SUCCESS_MESSAGE, Command.getAssignmentList());
         } catch (ItemNotFoundException e) {
             return new CommandResult(e.getMessage());
         }

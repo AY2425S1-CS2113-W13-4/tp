@@ -22,10 +22,10 @@ public class AddStudentCommand extends Command {
 
     @Override
     public CommandResult execute() {
-        try{
+        try {
             StudentClass studentToAdd = new StudentClass(name, matricNumber);
             students.addStudent(studentToAdd);
-            return new CommandResult(String.format(SUCCESSFUL_MESSAGE,studentToAdd));
+            return new CommandResult(String.format(SUCCESSFUL_MESSAGE, studentToAdd));
         } catch (IllegalValueException e) {
             return new CommandResult(e.getMessage());
         }

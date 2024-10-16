@@ -3,7 +3,7 @@ package tutorlink.commandpackage;
 import tutorlink.resultpackage.CommandResult;
 import tutorlink.studentpackage.StudentClass;
 
-public class DeleteStudentCommand extends FindStudentCommand{
+public class DeleteStudentCommand extends FindStudentCommand {
 
     public static final String COMMAND_WORD = "delete_student";
     public static final String REGEX = "^delete_student (i/(A\\d{7}[A-Z])?( n/[\\w\\d]+)?|n/[\\w\\d]" +
@@ -18,14 +18,14 @@ public class DeleteStudentCommand extends FindStudentCommand{
     @Override
     public CommandResult execute() {
         StudentClass studentToRemove = null;
-        for (StudentClass student : students.getStudentArrayList()){
+        for (StudentClass student : students.getStudentArrayList()) {
             boolean match = student.getName().equalsIgnoreCase(this.name)
                     || student.getMatricNumber().equals(this.matricNumber);
-            if(match) {
+            if (match) {
                 studentToRemove = student;
             }
         }
-        if(studentToRemove != null) {
+        if (studentToRemove != null) {
             students.deleteStudent(studentToRemove);
             return new CommandResult(String.format(SUCCESS_MESSAGE, studentToRemove));
         }

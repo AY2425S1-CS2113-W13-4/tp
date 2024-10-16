@@ -2,6 +2,7 @@ package tutorlink.listpackage;
 
 import tutorlink.exceptionspackage.ItemNotFoundException;
 import tutorlink.studentpackage.StudentClass;
+
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -36,7 +37,7 @@ public class StudentList extends ItemList {
                 .collect(Collectors.joining("\n\t"));
     }
 
-    public StudentList filterList(String name, String matricNumber){
+    public StudentList filterList(String name, String matricNumber) {
         StudentList filteredList = new StudentList();
         filteredList.studentArrayList = studentArrayList
                 .stream()

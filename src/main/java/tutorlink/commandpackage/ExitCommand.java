@@ -2,7 +2,7 @@ package tutorlink.commandpackage;
 
 import tutorlink.resultpackage.CommandResult;
 
-public class ExitCommand extends Command{
+public class ExitCommand extends Command {
     public static final String COMMAND_WORD = "bye";
 
     public CommandResult execute() {
@@ -10,7 +10,7 @@ public class ExitCommand extends Command{
     }
 
     @Override
-    public boolean isExit(){
+    public boolean isExit() {
         return true;
     }
 }

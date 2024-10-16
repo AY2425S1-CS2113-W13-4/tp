@@ -9,7 +9,7 @@ public class ListStudentCommand extends Command {
 
     @Override
     public CommandResult execute() {
-        return new CommandResult(SUCCESS_MESSAGE,students);
+        return new CommandResult(SUCCESS_MESSAGE, students);
     }
 
 }

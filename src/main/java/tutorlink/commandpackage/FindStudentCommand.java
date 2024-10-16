@@ -3,7 +3,7 @@ package tutorlink.commandpackage;
 import tutorlink.listpackage.StudentList;
 import tutorlink.resultpackage.CommandResult;
 
-public class FindStudentCommand extends Command{
+public class FindStudentCommand extends Command {
 
     public static final String COMMAND_WORD = "find_student";
     public static final String FORMAT_ERROR_MESSAGE = "Error, expected format: " + COMMAND_WORD
@@ -24,9 +24,9 @@ public class FindStudentCommand extends Command{
     }
 
     @Override
-    public CommandResult execute(){
+    public CommandResult execute() {
         StudentList filteredList = students.filterList(this.name, this.matricNumber);
-        if(filteredList.getNumberOfStudents() > 0) {
+        if (filteredList.getNumberOfStudents() > 0) {
             return new CommandResult(SUCCESS_MESSAGE, filteredList);
         } else {
 

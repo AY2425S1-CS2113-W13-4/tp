@@ -2,7 +2,6 @@ package tutorlink.commandpackage;
 
 import tutorlink.exceptionspackage.ItemNotFoundException;
 import tutorlink.listpackage.AssignmentList;
-import tutorlink.listpackage.CourseList;
 import tutorlink.resultpackage.CommandResult;
 
 public class DeleteAssignmentCommand extends Command {
@@ -29,8 +28,7 @@ public class DeleteAssignmentCommand extends Command {
     @Override
     public CommandResult execute() {
         try {
-            CourseList courseList = students.getStudent(this.matricNumber).courses;
-            AssignmentList assignmentList = courseList.getCourseByID(this.courseID).getAssignmentList();
+            AssignmentList assignmentList = Command.getAssignmentList();
             assignmentList.dropAssignmentByDesc(this.assignmentDesc);
             return new CommandResult(String.format(
                     SUCCESS_MESSAGE, this.assignmentDesc, this.matricNumber, this.courseID));

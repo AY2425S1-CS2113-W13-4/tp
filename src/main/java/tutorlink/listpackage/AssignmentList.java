@@ -13,7 +13,7 @@ public class AssignmentList extends ItemList {
         this.assignmentArrayList = new ArrayList<>();
     }
 
-    public void deleteAssignment(Assignment assignment){
+    public void deleteAssignment(Assignment assignment) {
         assignmentArrayList.remove(assignment);
     }
 
@@ -29,7 +29,7 @@ public class AssignmentList extends ItemList {
         }
     }
 
-    public void addAssignment(Assignment assignment){
+    public void addAssignment(Assignment assignment) {
         assignmentArrayList.add(assignment);
     }
 
@@ -39,7 +39,8 @@ public class AssignmentList extends ItemList {
 
     @Override
     public String toString() {
-        return IntStream.range(0, assignmentArrayList.size())
+        return IntStream
+                .range(0, assignmentArrayList.size())
                 .mapToObj(i -> (i + 1) + ": " + assignmentArrayList.get(i)) // 1-based index
                 .collect(Collectors.joining("\n\t"));
     }

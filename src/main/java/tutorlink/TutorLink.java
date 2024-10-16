@@ -24,21 +24,23 @@ public class TutorLink {
     private static final Logger LOGGER = Logger.getLogger(TutorLink.class.getName());
 
 
-    /** Main entry-point for TutorLink */
+    /**
+     * Main entry-point for TutorLink
+     */
     public static void main(String[] args) {
 
         setUpLogger();
         LOGGER.log(Level.INFO, "Test log message successful");
 
         Console.printWelcomeMessage();
-        while(true) {
+        while (true) {
             try {
                 String line = ui.collectUserInput();
                 Command command = parser.parse(line);
                 LOGGER.log(Level.INFO, "Parser created");
                 CommandResult commandResult = command.execute();
                 Console.displayCommandResult(commandResult);
-                if(command.isExit()) {
+                if (command.isExit()) {
                     break;
                 }
             } catch (MissingNextLineException e) {

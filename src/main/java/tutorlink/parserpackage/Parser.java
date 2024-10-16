@@ -2,13 +2,11 @@ package tutorlink.parserpackage;
 
 import tutorlink.commandpackage.AddAssignmentCommand;
 import tutorlink.commandpackage.FindStudentCommand;
-import tutorlink.commandpackage.AddCourseCommand;
 import tutorlink.commandpackage.AddStudentCommand;
 import tutorlink.commandpackage.DeleteStudentCommand;
 import tutorlink.commandpackage.InvalidCommand;
 import tutorlink.commandpackage.ListAssignmentCommand;
 import tutorlink.commandpackage.ListStudentCommand;
-import tutorlink.commandpackage.DeleteCourseCommand;
 import tutorlink.commandpackage.DeleteAssignmentCommand;
 import tutorlink.commandpackage.ExitCommand;
 import tutorlink.commandpackage.Command;
@@ -21,11 +19,11 @@ public class Parser {
     private static final String UNKNOWN_COMMAND_ERROR_MESSAGE = "Error: Unknown command";
 
     public Command parse(String line) {
-        if(line.trim().isEmpty()){
+        if (line.trim().isEmpty()) {
             return new InvalidCommand(EMPTY_INPUT_ERROR_MESSAGE);
         }
         String commandWord = extractCommandWord(line);
-        switch(commandWord){
+        switch (commandWord) {
         case AddStudentCommand.COMMAND_WORD:
             return addStudentCommand(line);
         case DeleteStudentCommand.COMMAND_WORD:
@@ -34,10 +32,6 @@ public class Parser {
             return new ListStudentCommand();
         case FindStudentCommand.COMMAND_WORD:
             return findStudentCommand(line);
-        case AddCourseCommand.COMMAND_WORD:
-            return addCourseCommand(line);
-        case DeleteCourseCommand.COMMAND_WORD:
-            return deleteCourseCommand(line);
         case AddAssignmentCommand.COMMAND_WORD:
             return addAssignmentCommand(line);
         case ListAssignmentCommand.COMMAND_WORD:
@@ -54,35 +48,11 @@ public class Parser {
     private Command listAssignmentCommand(String line) {
         Pattern pattern = Pattern.compile(ListAssignmentCommand.REGEX);
         Matcher matcher = pattern.matcher(line);
-        if(matcher.find()){
-            String matricNumber = matcher.group(1);
-            String courseID = matcher.group(2);
-            return new ListAssignmentCommand(matricNumber, courseID);
+        if (matcher.find()) {
+            return new ListAssignmentCommand();
         } else {
             return new InvalidCommand(ListAssignmentCommand.FORMAT_ERROR_MESSAGE);
         }
-    }
-    private Command deleteCourseCommand(String line) {
-        Pattern pattern = Pattern.compile(DeleteCourseCommand.REGEX);
-        Matcher matcher = pattern.matcher(line);
-        if(!matcher.find()) {
-            return new InvalidCommand("test");
-        }
-        String matricNumber = matcher.group(1);
-        String courseID = matcher.group(2);
-        return new DeleteCourseCommand(matricNumber, courseID);
-    }
-
-    private Command addCourseCommand(String line) {
-        Pattern pattern = Pattern.compile(AddCourseCommand.REGEX);
-        Matcher matcher = pattern.matcher(line);
-        if(!matcher.find()) {
-            return new InvalidCommand(AddCourseCommand.FORMAT_ERROR_MESSAGE);
-        }
-        String matricNumber = matcher.group(1);
-        String courseID = matcher.group(2);
-        int courseMCs = Integer.parseInt(matcher.group(3));
-        return new AddCourseCommand(matricNumber, courseID, courseMCs);
     }
 
     private String extractCommandWord(String input) {
@@ -93,25 +63,24 @@ public class Parser {
     public Command addAssignmentCommand(String line) {
         Pattern pattern = Pattern.compile(AddAssignmentCommand.REGEX);
         Matcher matcher = pattern.matcher(line);
-        if(!matcher.matches()) {
+        if (!matcher.matches()) {
             return new InvalidCommand(AddAssignmentCommand.FORMAT_ERROR_MESSAGE);
         }
         String matricNumber = matcher.group(1);
         String courseID = matcher.group(2);
-        String assignmentID = matcher.group(3);
-        double receivedScore = Double.parseDouble(matcher.group(4));
-        double totalScore = Double.parseDouble(matcher.group(6));
-        double weighting = Double.parseDouble(matcher.group(8));
-        if(weighting > 1.0) {
+        double receivedScore = Double.parseDouble(matcher.group(3));
+        double totalScore = Double.parseDouble(matcher.group(5));
+        double weighting = Double.parseDouble(matcher.group(7));
+        if (weighting > 1.0) {
             return new InvalidCommand(AddAssignmentCommand.INVALID_WEIGHTING_MESSAGE);
         }
-        return new AddAssignmentCommand(matricNumber, courseID, assignmentID, receivedScore, totalScore, weighting);
+        return new AddAssignmentCommand(matricNumber, courseID, receivedScore, totalScore, weighting);
     }
 
     public Command findStudentCommand(String line) {
         Pattern pattern = Pattern.compile(FindStudentCommand.REGEX);
         Matcher matcher = pattern.matcher(line);
-        if(!matcher.matches()) {
+        if (!matcher.matches()) {
             return new InvalidCommand(FindStudentCommand.FORMAT_ERROR_MESSAGE);
         }
         int nameIndexStart = line.indexOf("n/") + FindStudentCommand.PREFIX_INDEX;
@@ -138,7 +107,7 @@ public class Parser {
     public Command addStudentCommand(String line) {
         Pattern pattern = Pattern.compile(AddStudentCommand.REGEX);
         Matcher matcher = pattern.matcher(line);
-        if(!matcher.find()) {
+        if (!matcher.find()) {
             return new InvalidCommand(AddStudentCommand.FORMAT_ERROR_MESSAGE);
         }
         String name = matcher.group(1);
@@ -155,13 +124,15 @@ public class Parser {
     public Command deleteStudentCommand(String line) {
         Pattern pattern = Pattern.compile(DeleteStudentCommand.REGEX);
         Matcher matcher = pattern.matcher(line);
-        if(!matcher.matches()) {
+        if (!matcher.matches()) {
             return new InvalidCommand(FindStudentCommand.FORMAT_ERROR_MESSAGE);
         }
+
         int nameIndexStart = line.indexOf("n/") + FindStudentCommand.PREFIX_INDEX;
         int matricIndexStart = line.indexOf("i/") + FindStudentCommand.PREFIX_INDEX;
         String name = null;
         String matricNumber = null;
+
         if (nameIndexStart < FindStudentCommand.PREFIX_INDEX) {
             matricNumber = line.substring(matricIndexStart).trim();
         } else if (matricIndexStart < FindStudentCommand.PREFIX_INDEX) {
@@ -176,9 +147,11 @@ public class Parser {
     private Command deleteAssignmentCommand(String line) {
         Pattern pattern = Pattern.compile(DeleteAssignmentCommand.REGEX);
         Matcher matcher = pattern.matcher(line);
+
         if (!matcher.find()) {
             return new InvalidCommand(DeleteAssignmentCommand.FORMAT_ERROR_MESSAGE);
         }
+
         String matricNumber = matcher.group(1);
         String courseID = matcher.group(2);
         String assignmentDesc = matcher.group(3);
