@@ -1,0 +1,84 @@
+@startuml
+'https://plantuml.com/class-diagram
+!include Style.puml
+skinparam classAttributeIconSize 0
+skinparam classMethodIconSize 0
+skinparam linetype ortho
+
+package Assets <<Rectangle>>{
+Class "{abstract}\nCommand" as Command{
+    +execute():void {abstract}
+}
+Class AddGradeCommand{
+    +execute()
+}
+
+Class AddStudentCommand{
+    +execute()
+}
+
+Class AddAssociationCommand{
+    +execute()
+}
+
+Class AssociateAllStudentsCommand{
+    +execute()
+}
+
+Command-up-|>AddGradeCommand
+Command-down-|>AddStudentCommand
+Command-left-|>AddAssociationCommand
+Command-left-|>AssociateAllStudentsCommand
+Command -right-> "1" GradeList
+Command -up-> "1" StudentList
+
+Class Grade {
+    -description:String
+    -totalScore:double
+    +getDescription():String
+    +getScore():double
+    }
+Class Exam
+Class ClassParticipation
+Class Assignment
+Class GradeList
+Class ItemList{
+    <u>+size:int
+    +toString():String
+}
+Class StudentList
+Class Student{
+    -name:String
+    -matricNumber:String
+    +getName():String
+    +getMatricNumber():String
+}
+
+Class Association{
+    -score:double
+    +Association(grade:Grade,student:Student,score:double)
+}
+Class AssociationList{
+}
+}
+
+Assignment -up-|> Grade
+Exam -up-|> Grade
+ClassParticipation -up-|> Grade
+
+
+GradeList -right-> "*" Grade
+
+StudentList -right-> "*" Student
+
+AssociationList -right-> "*" Association
+Association -down-> "1" Grade
+Association -up-> "1" Student
+
+ItemList-right-|>StudentList
+ItemList-right-|>GradeList
+ItemList-right-|>AssociationList
+
+
+
+@enduml
