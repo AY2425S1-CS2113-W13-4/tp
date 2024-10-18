@@ -1,0 +1,103 @@
+@startuml App Diagram
+
+'https://plantuml.com/class-diagram
+' !include Style.puml
+skinparam classAttributeIconSize 0
+skinparam classMethodIconSize 0
+skinparam linetype ortho
+
+package TutorLink <<Rectangle>>{
+
+class CommandResult {
+    + CommandResult(msg: String)
+    + toString(): String
+}
+
+class Ui
+
+abstract class Command {
+    + Command() {abstract}
+    + {abstract}{static} getCommandWord() : String
+    + {abstract}{static} getArguments() : String[]
+    + execute(state: AppState, arguments: HashMap<String, String>): CommandResult {abstract}
+}
+
+Command ..right.. CommandResult
+
+
+class Component {
+    -name: String
+    -maxScore: double
+    -weight: double
+    +getName(): String
+    +getMaxScore(): double
+    +getWeight(): double
+    +equals(Object obj):boolean
+}
+class Exam
+class ClassParticipation
+class Assignment
+
+Exam --|> Component
+ClassParticipation --|> Component
+Assignment --|> Component
+
+
+class Student{
+    -name: String
+    -matricNumber: String
+    +getName(): String
+    +getMatricNumber(): String
+    +equals(Object obj): boolean
+}
+
+
+class Grade{
+    -score: double
+    -component: Component
+    -student: Student
+    +Grade(component: Component, student: Student, score: double)
+    +equals(Object obj):boolean
+}
+
+
+class AppState
+class GradeList{
+    + findGrade(student: Student, component: Component): Grade
+    + addGrade(grade: Grade): void
+    + deleteGrade(grade: Grade): void
+}
+class StudentList {
+    + findStudentById(id: String): Student
+    + findStudentByName(name: String): Student
+    + addStudent(student: Student): void
+    + deleteGrade(student: Student): void
+    + toString(): String
+}
+class ComponentList {
+    + findComponent(id: String): Student
+    + findStudentByName(name: String): Student
+    + addStudent(student: Student): void
+    + deleteGrade(student: Student): void
+}
+
+AppState -> "1" GradeList
+AppState --> "1" StudentList
+AppState -> "1" ComponentList
+
+GradeList -> "*" Grade
+ComponentList -> "*" Component
+StudentList -> "*" Student
+
+Command .. AppState
+
+class Parser {
+    + getArguments(argumentList: String[], line: String): HashMap<String, String>
+    + getCommand(line: String) : Command
+}
+
+Parser .. Command
+
+}
+
+@enduml
