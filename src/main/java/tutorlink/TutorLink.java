@@ -1,10 +1,15 @@
 package tutorlink;
 
-import tutorlink.consolepackage.Console;
-import tutorlink.uipackage.Ui;
-import tutorlink.parserpackage.Parser;
+import tutorlink.appstate.AppState;
+import tutorlink.command.Command;
+import tutorlink.command.ExitCommand;
+import tutorlink.exceptions.TutorLinkException;
+import tutorlink.result.CommandResult;
+import tutorlink.ui.Ui;
+import tutorlink.parser.Parser;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Level;
 import java.util.logging.LogManager;
@@ -17,6 +22,7 @@ import java.util.logging.FileHandler;
 public class TutorLink {
     private static final Ui ui = new Ui();
     private static final Parser parser = new Parser();
+    private static final AppState appState = new AppState();
 
     private static final Logger LOGGER = Logger.getLogger(TutorLink.class.getName());
 
@@ -29,9 +35,27 @@ public class TutorLink {
         setUpLogger();
         LOGGER.log(Level.INFO, "Test log message successful");
 
-        Console.printWelcomeMessage();
+        ui.displayWelcomeMessage();
         while (true) {
-            //main code goes here
+            try {
+                String line = ui.getUserInput();
+
+                //Actual code once the parser is implemented
+                //Command currentCommand = parser.getCommand(line);
+                //HashMap<String, String> arguments = parser.getArguments(currentCommand.getArgumentPrefixes(), line);
+
+                Command currentCommand = new ExitCommand();
+                HashMap<String, String> arguments = new HashMap<>();
+                CommandResult res = currentCommand.execute(appState, arguments);
+
+                ui.displayResult(res);
+
+                if (currentCommand.isExit()) {
+                    break;
+                }
+            } catch (TutorLinkException e) {
+                ui.displayException(e);
+            }
         }
     }
 

@@ -1,4 +1,4 @@
-package tutorlink.listpackage;
+package tutorlink.lists;
 
 import org.junit.jupiter.api.Test;
 

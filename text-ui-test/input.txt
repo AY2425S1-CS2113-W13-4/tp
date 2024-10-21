@@ -1,7 +1,1 @@
-add_student n/Ethan i/A0226117H
-list_student
-find_student n/Joe
-find_student i/A0016117H
-find_student n/Ethan
-find_student i/A0226117H
 bye

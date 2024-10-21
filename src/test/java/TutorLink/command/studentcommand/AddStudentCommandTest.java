@@ -2,10 +2,10 @@ package tutorlink.command.studentcommand;
 
 import java.util.HashMap;
 import org.junit.jupiter.api.Test;
-import tutorlink.appstatepackage.AppState;
-import tutorlink.commandpackage.AddStudentCommand;
-import tutorlink.exceptionspackage.IllegalValueException;
-import tutorlink.resultpackage.CommandResult;
+import tutorlink.appstate.AppState;
+import tutorlink.command.AddStudentCommand;
+import tutorlink.exceptions.IllegalValueException;
+import tutorlink.result.CommandResult;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
