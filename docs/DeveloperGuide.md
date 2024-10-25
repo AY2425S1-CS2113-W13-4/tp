@@ -100,7 +100,7 @@ Additional, it implements
 
 #### Example Usage Scenario
 
-Step 1. The user launches the application and has already added students and graded components into TutorLink
+Step 1: The user launches the application and has already added students and graded components into TutorLink
 
 
 Step 2: The user executes ________ . The add_grade command is parsed through the parser, causing a AddGradeCommand object to be created. A hashmap containing all the input parameters are also returned
@@ -128,4 +128,19 @@ Step 9: The newly created grade object is then added to the gradelist.
 
 <Insert Sequence diagram here, todo>
 
+### Storage feature
 
+#### Implementation
+
+The `Storage` class is responsible for the automatic loading and saving of list data to and from `.txt` files, 
+so that data will be retained between runs of the application.
+
+#### Example Usage Scenario
+
+Step 1: The user launches the application. During startup, the `main` method calls constructors for `Storage` objects 
+for each of `StudentList`, `ComponentList` and `Gradelist`.
+
+Step 2: The predefined filepaths are passed into the constructor. The directory and file are created if they do not
+currently exist.
+
+<Insert Sequence diagram here, todo>

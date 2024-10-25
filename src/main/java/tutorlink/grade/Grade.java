@@ -22,7 +22,9 @@ public class Grade {
         return component;
     }
 
-    public double getScore() {return score;}
+    public double getScore() {
+        return score;
+    }
 
     public boolean isSameSubmission(Object obj) {
         if (obj instanceof Grade grade) {

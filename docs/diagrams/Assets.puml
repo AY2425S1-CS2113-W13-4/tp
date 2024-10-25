@@ -95,10 +95,11 @@ class StudentList {
     + toString(): String
 }
 class ComponentList {
-    + findComponent(id: String): Component
+    + findComponent(id: String): ComponentList
     + addComponent(component: Component): void
     + deleteComponent(component: Component): void
     + findAllComponents(): ArrayList<Component>
+    + size(): int
     + toString(): String
 }
 
