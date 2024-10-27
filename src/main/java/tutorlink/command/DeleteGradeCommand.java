@@ -3,7 +3,6 @@ package tutorlink.command;
 import java.util.HashMap;
 
 import tutorlink.appstate.AppState;
-import tutorlink.exceptions.DuplicateMatricNumberException;
 import tutorlink.exceptions.IllegalValueException;
 import tutorlink.exceptions.StudentNotFoundException;
 import tutorlink.exceptions.TutorLinkException;

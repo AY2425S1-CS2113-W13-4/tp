@@ -2,7 +2,6 @@ package tutorlink.lists;
 
 import tutorlink.exceptions.DuplicateMatricNumberException;
 import tutorlink.exceptions.StudentNotFoundException;
-import tutorlink.exceptions.TutorLinkException;
 import tutorlink.student.Student;
 
 import java.util.ArrayList;
@@ -54,7 +53,9 @@ public class StudentList {
 
     @Override
     public String toString() {
-        if(studentArrayList.isEmpty()) return "No student found";
+        if (studentArrayList.isEmpty()) {
+            return "No student found";
+        }
         return IntStream.range(0, studentArrayList.size())
                 .mapToObj(i -> ("\t" + (i + 1)) + ": " + studentArrayList.get(i)) // 1-based index
                 .collect(Collectors.joining(TO_STRING_DELIMITER));

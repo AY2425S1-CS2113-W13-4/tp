@@ -11,7 +11,11 @@ import tutorlink.command.ListStudentCommand;
 import tutorlink.command.AddGradeCommand;
 import tutorlink.exceptions.InvalidCommandException;
 
-import java.util.*;
+import java.util.List;
+import java.util.HashMap;
+import java.util.Comparator;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.logging.Logger;
 
 public class Parser {
@@ -66,8 +70,6 @@ public class Parser {
         ).toList());
 
         prefixIndexes.sort(Comparator.comparingInt(val -> val.index));
-
-//        System.out.println(prefixIndexes);
 
         for (int i = 0; i < prefixIndexes.size(); i++) {
             PlaceholderValue curVal = prefixIndexes.get(i);
