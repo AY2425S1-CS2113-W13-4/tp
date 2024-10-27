@@ -3,7 +3,6 @@ package tutorlink.student;
 public class Student {
     private String matricNumber;
     private String name;
-    private double gpa;
 
     public Student(String matricNumber, String name) {
         this.name = name;

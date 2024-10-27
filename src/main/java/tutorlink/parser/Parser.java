@@ -7,9 +7,9 @@ import tutorlink.command.DeleteGradeCommand;
 import tutorlink.command.DeleteStudentCommand;
 import tutorlink.command.ExitCommand;
 import tutorlink.command.FindStudentCommand;
-import tutorlink.command.InvalidCommand;
 import tutorlink.command.ListStudentCommand;
 import tutorlink.command.AddGradeCommand;
+import tutorlink.exceptions.InvalidCommandException;
 
 import java.util.HashMap;
 import java.util.logging.Logger;
@@ -32,33 +32,18 @@ public class Parser {
     public Command getCommand(String line) {
         String commandWord = extractCommandWord(line);
 
-        switch (commandWord.toLowerCase()) {
-        case AddStudentCommand.COMMAND_WORD:
-            return new AddStudentCommand(); // Calls delete command handling method
+        return switch (commandWord.toLowerCase()) {
+        case AddStudentCommand.COMMAND_WORD -> new AddStudentCommand(); // Calls delete command handling method
+        case DeleteStudentCommand.COMMAND_WORD -> new DeleteStudentCommand(); // Calls add command handling method
+        case FindStudentCommand.COMMAND_WORD -> new FindStudentCommand(); // Lists all students
+        case ListStudentCommand.COMMAND_WORD -> new ListStudentCommand(); // Lists all students
+        case AddGradeCommand.COMMAND_WORD -> new AddGradeCommand();
+        case DeleteGradeCommand.COMMAND_WORD -> new DeleteGradeCommand();
+        case DeleteComponentCommand.COMMAND_WORD -> new DeleteComponentCommand();
+        case ExitCommand.COMMAND_WORD -> new ExitCommand(); // Lists all students
 
-        case DeleteStudentCommand.COMMAND_WORD:
-            return new DeleteStudentCommand(); // Calls add command handling method
-
-        case FindStudentCommand.COMMAND_WORD:
-            return new FindStudentCommand(); // Lists all students
-
-        case ListStudentCommand.COMMAND_WORD:
-            return new ListStudentCommand(); // Lists all students
-
-        case AddGradeCommand.COMMAND_WORD:
-            return new AddGradeCommand();
-
-        case DeleteGradeCommand.COMMAND_WORD:
-            return new DeleteGradeCommand();
-        case DeleteComponentCommand.COMMAND_WORD:
-            return new DeleteComponentCommand();
-
-        case ExitCommand.COMMAND_WORD:
-            return new ExitCommand(); // Lists all students
-
-        default:
-            return new InvalidCommand();
-        }
+        default -> throw new InvalidCommandException(UNKNOWN_COMMAND_ERROR_MESSAGE);
+        };
 
     }
 
@@ -67,7 +52,7 @@ public class Parser {
      * Extracts command arguments from the input string based on the given argument prefixes.
      *
      * @param argumentPrefixes an array of valid argument prefixes (e.g., "n/", "i/")
-     * @param line the user input containing command arguments
+     * @param line             the user input containing command arguments
      * @return a HashMap where keys are the prefixes (e.g., "n/", "i/") and the values are the corresponding arguments
      */
     public HashMap<String, String> getArguments(String[] argumentPrefixes, String line) {

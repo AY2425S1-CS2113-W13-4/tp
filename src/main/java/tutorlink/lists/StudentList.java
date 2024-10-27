@@ -21,7 +21,7 @@ public class StudentList {
         this.studentArrayList = new ArrayList<>();
     }
 
-    public void deleteStudent(String matricNumber) throws StudentNotFoundException{
+    public void deleteStudent(String matricNumber) throws StudentNotFoundException {
         matricNumber = matricNumber.toUpperCase();
         for (Student student : studentArrayList) {
             if (student.getMatricNumber().equals(matricNumber)) {
@@ -54,32 +54,36 @@ public class StudentList {
 
     @Override
     public String toString() {
+        if(studentArrayList.isEmpty()) return "No student found";
         return IntStream.range(0, studentArrayList.size())
                 .mapToObj(i -> ("\t" + (i + 1)) + ": " + studentArrayList.get(i)) // 1-based index
                 .collect(Collectors.joining(TO_STRING_DELIMITER));
     }
 
-    public StudentList findStudentByMatricNumber(String matricNumber) throws TutorLinkException {
+    // Note (delete later): Current command checking if the return List is empty or
+    // not already, and not expecting this to fail
+    // Finding command should not fail after all, if it found nothing then just return
+    // nothing
+    public StudentList findStudentByMatricNumber(String matricNumber) {
         StudentList filteredList = new StudentList();
         filteredList.studentArrayList = studentArrayList
                 .stream()
                 .filter(student -> student.getMatricNumber().equals(matricNumber.toUpperCase()))
                 .collect(Collectors.toCollection(ArrayList::new));
-        if (filteredList.studentArrayList.isEmpty()) {
-            throw new StudentNotFoundException("No students with matricNumber " + matricNumber + " found");
-        }
+
         return filteredList;
     }
 
-    public StudentList findStudentByName(String name) throws StudentNotFoundException {
+    // Note (delete later): Current command checking if the return List is empty or
+    // not already, and not expecting this to fail
+    // Finding command should not fail after all, if it found nothing then just return
+    // nothing
+    public StudentList findStudentByName(String name) {
         StudentList filteredList = new StudentList();
         filteredList.studentArrayList = studentArrayList
                 .stream()
                 .filter(student -> student.getName().contains(name))
                 .collect(Collectors.toCollection(ArrayList::new));
-        if (filteredList.studentArrayList.isEmpty()) {
-            throw new StudentNotFoundException("No students with name " + name + " found");
-        }
         return filteredList;
     }
 }

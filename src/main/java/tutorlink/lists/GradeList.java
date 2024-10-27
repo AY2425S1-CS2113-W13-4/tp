@@ -64,7 +64,7 @@ public class GradeList {
 
     public void addGrade(Grade grade) throws DuplicateGradeException {
         for (Grade gradeToCompare : gradeArrayList) {
-            if (grade.equals(gradeToCompare)) {
+            if (grade.isSameSubmission(gradeToCompare)) {
                 throw new DuplicateGradeException(ERROR_DUPLICATE_GRADE_ON_ADD);
             }
         }

@@ -35,6 +35,7 @@ public class AddGradeCommand extends Command {
         String matricNumber = hashmap.get(ARGUMENT_PREFIXES[0]);
         String componentDescription = hashmap.get(ARGUMENT_PREFIXES[1]);
         String scoreNumber = hashmap.get(ARGUMENT_PREFIXES[2]);
+
         if (matricNumber == null || componentDescription == null || scoreNumber == null) {
             throw new IllegalValueException(ERROR_ARGUMENT_NULL);
         }

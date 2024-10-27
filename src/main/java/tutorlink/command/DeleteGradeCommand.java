@@ -9,6 +9,7 @@ import tutorlink.exceptions.StudentNotFoundException;
 import tutorlink.exceptions.TutorLinkException;
 import tutorlink.lists.StudentList;
 import tutorlink.result.CommandResult;
+
 import static tutorlink.lists.StudentList.STUDENT_NOT_FOUND;
 
 public class DeleteGradeCommand extends Command {
@@ -35,9 +36,6 @@ public class DeleteGradeCommand extends Command {
 
         if (filteredList.size() == 0) {
             throw new StudentNotFoundException(String.format(STUDENT_NOT_FOUND, matricNumber));
-        } else if (filteredList.size() > 1) {
-            String errorMessage = String.format(ERROR_DUPLICATE_MATRIC_NUMBER, matricNumber);
-            throw new DuplicateMatricNumberException(errorMessage);
         }
 
         //Attempt to delete grade

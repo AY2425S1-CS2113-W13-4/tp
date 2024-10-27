@@ -18,16 +18,19 @@ public class FindStudentCommand extends Command {
     public CommandResult execute(AppState appstate, HashMap<String, String> hashmap) throws TutorLinkException {
         String matricNumber = hashmap.get(ARGUMENT_PREFIXES[0]);
         String name = hashmap.get(ARGUMENT_PREFIXES[1]);
-        StudentList students;
+
         if (name == null && matricNumber == null) {
             throw new IllegalValueException(ERROR_BOTH_NULL);
         }
+
+        StudentList students;
         if (hashmap.containsKey(ARGUMENT_PREFIXES[0])) {
             students = appstate.students.findStudentByMatricNumber(matricNumber);
             assert students.getStudentArrayList().size() <= 1; //there should only be 1 unique matric number
         } else {
             students = appstate.students.findStudentByName(name);
         }
+
         return new CommandResult(students.toString());
     }
 

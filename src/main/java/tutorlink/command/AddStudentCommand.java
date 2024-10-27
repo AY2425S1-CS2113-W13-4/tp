@@ -22,6 +22,7 @@ public class AddStudentCommand extends Command {
         if (matricNumber == null || name == null) {
             throw new IllegalValueException(ERROR_EITHER_NULL);
         }
+
         appState.students.addStudent(matricNumber, name);
         return new CommandResult(String.format(SUCCESS_MESSAGE, name, matricNumber));
     }

@@ -20,8 +20,10 @@ public class DeleteStudentCommand extends Command {
         if (matricNumber == null) {
             throw new IllegalValueException(ERROR_MATRIC_NUMBER_NULL);
         }
+
         appState.students.deleteStudent(matricNumber);
         appState.grades.deleteGradesByMatric(matricNumber);
+
         return new CommandResult(String.format(SUCCESS_MESSAGE, matricNumber));
     }
 

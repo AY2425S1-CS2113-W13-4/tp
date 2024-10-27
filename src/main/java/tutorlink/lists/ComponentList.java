@@ -25,8 +25,9 @@ public class ComponentList {
         ComponentList filteredList = new ComponentList();
         filteredList.componentArrayList = componentArrayList
                 .stream()
-                .filter(comp -> comp.getName().toUpperCase().contains(name.toUpperCase()))
+                .filter(comp -> comp.getName().equals(name.toLowerCase()))
                 .collect(Collectors.toCollection(ArrayList::new));
+
         if (filteredList.componentArrayList.isEmpty()) {
             throw new ComponentNotFoundException(String.format(ERROR_COMPONENT_NOT_FOUND, name));
         }

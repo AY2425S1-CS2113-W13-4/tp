@@ -9,4 +9,12 @@ public class Assignment extends Component {
     public String toString() {
         return "Assignment " + super.toString();
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(!(obj instanceof Assignment)) {
+            return false;
+        }
+        return super.equals(obj);
+    }
 }

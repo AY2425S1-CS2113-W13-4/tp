@@ -38,7 +38,8 @@ public class Grade {
     public boolean equals(Object obj) {
         if (obj instanceof Grade grade) {
             return this.component.equals(grade.component)
-                    && this.student.equals(grade.student);
+                    && this.student.equals(grade.student)
+                    && this.score == grade.score;
         }
         return false;
     }
