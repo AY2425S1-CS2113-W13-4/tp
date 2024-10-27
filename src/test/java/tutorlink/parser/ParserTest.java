@@ -13,8 +13,7 @@ import tutorlink.exceptions.InvalidCommandException;
 
 import java.util.HashMap;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class ParserTest {
 
@@ -65,10 +64,44 @@ public class ParserTest {
     }
 
     @Test
-    void getCommand_invalidCommand_invalidCommandReturned() {
+    void getCommand_invalidCommand_invalidCommandExceptionThrow() {
         Parser parser = new Parser();
         String input = "test_input";
         assertThrows(InvalidCommandException.class, () -> parser.getCommand(input));
+    }
+
+    @Test
+    void getArguments_match_correctly() {
+        Parser parser = new Parser();
+        String[] prefixes = new String[]{"i/", "n/"};
+
+        // Standard format
+        String input = "add_student i/A1234567X n/John";
+        HashMap<String, String> arguments = parser.getArguments(prefixes, input);
+        assertEquals(2, arguments.size());
+        assertEquals(arguments.get("i/"), "A1234567X");
+        assertEquals(arguments.get("n/"), "John");
+
+        // String with space
+        String secondInput = "add_student i/A1234567X n/John Doe";
+        HashMap<String, String> secondArguments = parser.getArguments(prefixes, secondInput);
+        assertEquals(2, secondArguments.size());
+        assertEquals(secondArguments.get("i/"), "A1234567X");
+        assertEquals(secondArguments.get("n/"), "John Doe");
+
+        // Missing argument
+        String thirdInput = "add_student n/John Doe";
+        HashMap<String, String> thirdArguments = parser.getArguments(prefixes, thirdInput);
+        assertEquals(1, thirdArguments.size());
+        assertNull(thirdArguments.get("i/"));
+        assertEquals(thirdArguments.get("n/"), "John Doe");
+
+        // Duplicate argument
+        String fourthInput = "add_student n/John Doe i/A1234567X n/Evil John Doe";
+        HashMap<String, String> fourthArguments = parser.getArguments(prefixes, fourthInput);
+        assertEquals(2, fourthArguments.size());
+        assertEquals(fourthArguments.get("i/"), "A1234567X n/Evil John Doe");
+        assertEquals(fourthArguments.get("n/"), "John Doe");
     }
 
     @Test

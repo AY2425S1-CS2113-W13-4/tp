@@ -61,13 +61,13 @@ public class Parser {
         record PlaceholderValue(String prefix, Integer index) {
         }
 
-        List<PlaceholderValue> prefixIndexes = Arrays.stream(argumentPrefixes).map((arg) ->
+        List<PlaceholderValue> prefixIndexes = new ArrayList<>(Arrays.stream(argumentPrefixes).map((arg) ->
                 new PlaceholderValue(arg, line.indexOf(arg))
-        ).toList();
+        ).toList());
 
         prefixIndexes.sort(Comparator.comparingInt(val -> val.index));
 
-        System.out.println(prefixIndexes);
+//        System.out.println(prefixIndexes);
 
         for (int i = 0; i < prefixIndexes.size(); i++) {
             PlaceholderValue curVal = prefixIndexes.get(i);
@@ -77,7 +77,7 @@ public class Parser {
 
             int nextIndex = i == prefixIndexes.size() - 1 ? line.length() : prefixIndexes.get(i + 1).index;
 
-            arguments.put(curVal.prefix, line.substring(curVal.index + 2, nextIndex));
+            arguments.put(curVal.prefix, line.substring(curVal.index + 2, nextIndex).trim());
         }
 
         return arguments;
