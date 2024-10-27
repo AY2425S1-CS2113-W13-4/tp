@@ -11,11 +11,8 @@ import tutorlink.command.ListStudentCommand;
 import tutorlink.command.AddGradeCommand;
 import tutorlink.exceptions.InvalidCommandException;
 
-import java.util.HashMap;
+import java.util.*;
 import java.util.logging.Logger;
-
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class Parser {
     private static final Logger LOGGER = Logger.getLogger(Parser.class.getName());
@@ -47,7 +44,6 @@ public class Parser {
 
     }
 
-
     /**
      * Extracts command arguments from the input string based on the given argument prefixes.
      *
@@ -58,28 +54,30 @@ public class Parser {
     public HashMap<String, String> getArguments(String[] argumentPrefixes, String line) {
         HashMap<String, String> arguments = new HashMap<>();
 
-        if (argumentPrefixes == null) {
+        if (argumentPrefixes == null || argumentPrefixes.length == 0) {
             return arguments;
         }
 
-        // Build regex pattern dynamically from the provided argument prefixes
-        StringBuilder regexBuilder = new StringBuilder("(?i)(");
-        for (String prefix : argumentPrefixes) {
-            regexBuilder.append(Pattern.quote(prefix)).append("|");
+        record PlaceholderValue(String prefix, Integer index) {
         }
-        regexBuilder.setLength(regexBuilder.length() - 1); // Remove the last "|"
-        // Match argument that could have spaces, but ends before another prefix or end of the string
-        regexBuilder.append(")([^\\s].*?)(?=(\\s+[^\\s]+/|$))");
 
-        String regex = regexBuilder.toString();
-        Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher(line);
+        List<PlaceholderValue> prefixIndexes = Arrays.stream(argumentPrefixes).map((arg) ->
+                new PlaceholderValue(arg, line.indexOf(arg))
+        ).toList();
 
-        // Iterate through all found tags and arguments
-        while (matcher.find()) {
-            String tag = matcher.group(1); // Group 1 is the tag (e.g., n/, i/, etc.)
-            String argument = matcher.group(2).trim(); // Group 2 is the argument after the tag
-            arguments.put(tag, argument); // Store the tag and argument
+        prefixIndexes.sort(Comparator.comparingInt(val -> val.index));
+
+        System.out.println(prefixIndexes);
+
+        for (int i = 0; i < prefixIndexes.size(); i++) {
+            PlaceholderValue curVal = prefixIndexes.get(i);
+            if (curVal.index == -1) {
+                continue;
+            }
+
+            int nextIndex = i == prefixIndexes.size() - 1 ? line.length() : prefixIndexes.get(i + 1).index;
+
+            arguments.put(curVal.prefix, line.substring(curVal.index + 2, nextIndex));
         }
 
         return arguments;
