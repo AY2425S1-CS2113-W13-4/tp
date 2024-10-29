@@ -1,0 +1,48 @@
+@startuml
+!include Style.puml
+group sd DeleteGradeCommand
+participant ":DeleteGradeCommand" as C LOGIC_COLOR_3
+participant ":AppState" as A LOGIC_COLOR_2
+participant ":HashMap<String, String>" as H LOGIC_COLOR_7
+participant ":CommandResult" as R LOGIC_COLOR_8
+
+[-> C
+C -> H : get("i/")
+activate H
+C <-- H : matricNumber
+deactivate H
+
+C -> H : get("c/")
+activate H
+C <-- H : componentDescription
+deactivate H
+
+opt matricNumber or componentDescription is null
+    [<-- C : throw IllegalValueException
+end
+
+C -> A : findStudentByMatricNumber(matricNumber)
+activate A
+A --> C : filteredList
+deactivate A
+
+alt filteredList.size() == 0
+    <-- C : throw StudentNotFoundException
+else filteredList.size() > 1
+    <-- C : throw DuplicateMatricNumberException
+end
+
+C -> A : deleteGrade(matricNumber, componentDescription)
+activate A
+C <-- A
+deactivate A
+
+create R
+C -> R : new CommandResult
+activate R
+C <-- R : CommandResult
+deactivate R
+
+[<-- C : CommandResult
+end
+@enduml
